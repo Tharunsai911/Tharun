@@ -1,0 +1,23 @@
+---
+- name: Deploy Docker Container
+  hosts: localhost
+  
+  tasks:
+    - name: Install Docker.io
+      apt:
+        name: docker.io
+        state: present
+
+    - name: Pull Apache Docker image
+      docker_image:
+        name: httpd
+        source: pull
+        state: present
+
+    - name: Run Apache Docker container
+      docker_container:
+        name: apache_container
+        image: httpd
+        state: started
+        published_ports:
+          - "8080:80"
